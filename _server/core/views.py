@@ -4,6 +4,7 @@ import json
 import os
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from .books_data import books 
 
 # Load manifest when server launches
 MANIFEST = {}
@@ -24,9 +25,23 @@ def index(req):
     return render(req, "core/index.html", context)
 
 
-from .books_data import books  
+ 
+
+
+ 
 @login_required
 def get_books(request):
     # Convert the Book objects to dictionaries
     books_data = [book.to_dict() for book in books]
     return JsonResponse(books_data, safe=False)
+
+
+
+def get_book(request, book_name):
+    # Find the book directly by its url_name
+    book = next((book for book in books if book.url_name == book_name), None)
+    
+    if not book:
+        return JsonResponse({"error": "Book not found"}, status=404)
+
+    return JsonResponse(book.to_dict())  # Return the book data as a dictionary

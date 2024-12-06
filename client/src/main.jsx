@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import Home from "./pages/Home/Home";
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import BookPage from './pages/BookPage/BookPage';
 
 
 const router = createHashRouter([
@@ -13,6 +14,10 @@ const router = createHashRouter([
   {
     path: "/profile",
     element: <ProfilePage />,
+  },
+  {
+    path: "/:bookName",  // Dynamic route for each book
+    element: <BookPage />,
   },
 ])
 
